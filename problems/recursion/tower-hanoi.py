@@ -3,22 +3,25 @@ import sys
 sys.setrecursionlimit(200000)
 
 
-def solve(i, n, x, arr, ans):
-    if i == n:
-        return ans
+def solve(n, a, b, c, moves):
 
-    if arr[i] == x:
-        ans.append(str(i + 1))
+    if n == 0:
+        return
 
-    return solve(i + 1, n, x, arr, ans)
+    solve(n - 1, a, c, b, moves)
+
+    moves.append(f"Move {a} to {c}")
+
+    solve(n - 1, b, a, c, moves)
 
 
 def main():
     data = list(map(int, sys.stdin.read().split()))
     n = data[0]
+    moves = []
     arr, x = data[1:-1], data[-1]
-
-    sys.stdout.write(" ".join(solve(0, n - 1, x, arr, [])))
+    solve(n, "A", "B", "C", moves)
+    sys.stdout.write("\n".join(moves))
 
 
 if __name__ == "__main__":
